@@ -3,16 +3,10 @@ from time import time
 from hashlib import md5
 import socket
 from threading import Thread
+import os
+from config import CHUNK_SIZE, METADATA_SIZE, NO_LOOPS, PORT, MAX_CLIENTS, IN_FILE, OUT_FILE, PASSWORD
 
-IN_FILE = 'test.txt'
-OUT_FILE = 'out2.txt'
-PASSWORD = '1234567'
-
-CHUNK_SIZE = 5000       # how many bytes in single data chunk
-METADATA_SIZE = 50      # how many bytes in metadata
 HOST = '127.0.0.1'      # socket host to bind
-PORT = 9999             # socket port to bind
-MAX_CLIENTS = 10        # max allowed clients
 
 
 class EncryptionWorker:
@@ -108,12 +102,16 @@ class EncryptionWorker:
             conn.sendall(b'ACK')
 
         print(f'Connection with {conn.getpeername()} closed.')
-        conn.sendall(b'STOP')
-        conn.recv(METADATA_SIZE)
-        conn.close()
+        try:
+            conn.sendall(b'STOP')
+            conn.recv(METADATA_SIZE)
+            conn.close()
+        except ConnectionResetError:
+            print('Connection reseted by client!')
 
 
 if __name__ == '__main__':
+    print(f'SCENARIO: file size: {os.path.getsize(IN_FILE)}, chunk size: {CHUNK_SIZE}, loops: {NO_LOOPS}')
     enc_worker = EncryptionWorker(IN_FILE, OUT_FILE, PASSWORD)
 
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

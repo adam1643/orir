@@ -46,3 +46,5 @@ W ramach instancji `client.py` działa `n` procesów każdy wykonujący własne 
 # Pliki pomocnicze
 
 `file_generator.py` - skrypt umożliwiający tworzenie plików o określonej wielkości umieszczając w nich losowe znaki
+
+Przykładowo komenda `python3 file_generator.py test.txt 2` utworzy plik `test.txt` o wielkości 2 MB zawierający zestaw losowych znaków [a-zA-Z0-9].

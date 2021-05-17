@@ -1,12 +1,9 @@
 import socket
 from multiprocessing import Process
+from config import CHUNK_SIZE, METADATA_SIZE, NO_LOOPS, PORT
 
 PROCESSES = 8
 HOST = '127.0.0.1'  # The server's hostname or IP address
-PORT = 9999         # The port used by the server
-CHUNK_SIZE = 5000   # how many bytes in single data chunk
-METADATA_SIZE = 50  # how many bytes in metadata
-NO_LOOPS = 50       # how many encryption loops
 
 
 def encrypt(chunk, password, loop_size=NO_LOOPS):
