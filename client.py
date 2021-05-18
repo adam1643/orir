@@ -75,7 +75,10 @@ if __name__ == '__main__':
 
     # end connection
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-        sock.connect((HOST, PORT))
-        sock.sendall(b'STOP')
-        sock.close()
+        try:
+            sock.connect((HOST, PORT))
+            sock.sendall(b'STOP')
+            sock.close()
+        except ConnectionRefusedError:
+            print('Connection was already closed!')
     print('All computations done!')

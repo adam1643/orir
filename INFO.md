@@ -66,7 +66,8 @@ Dla wersji rozproszonej czas działania liczony jest od momentu podłączenia si
 Każdy scenariusz powinien zostać wykonany w obu wersjach (równoległej i rozproszonej) dla każdej liczby procesów od 1 do 8.
 
 Informacje zapisywane są w pliku `log.txt` w formacie:
-```xml
+
+```
 TYPE;FILE_SIZE;CHUNK_SIZE;LOOPS;PROCESSES;TIME
 ```
 
@@ -76,7 +77,7 @@ TYPE;FILE_SIZE;CHUNK_SIZE;LOOPS;PROCESSES;TIME
  2.  | 1                   | 50               | 1000                  |
  3.  | 1                   | 50               | 200                   |
  4.  | 0.1                 | 50               | 5000                  |
- 5.  | 0.2                 | 50               | 1000                  |
+ 5.  | 0.2                 | 50               | 5000                  |
  6.  | 0.5                 | 50               | 5000                  |
  7.  | 1                   | 50               | 5000                  |
  8.  | 2                   | 50               | 5000                  |
