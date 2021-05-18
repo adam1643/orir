@@ -2,7 +2,7 @@ from multiprocessing import Queue, Process, cpu_count
 from time import time
 from hashlib import md5
 import os
-from config import CHUNK_SIZE, NO_LOOPS, IN_FILE, OUT_FILE, PASSWORD
+from config import CHUNK_SIZE, NO_LOOPS, IN_FILE, OUT_FILE, PASSWORD, log_data
 
 PROCESSES = cpu_count()
 
@@ -32,7 +32,8 @@ class EncryptionWorker:
         self.reader_proc.join()
         self.writer_proc.join()
 
-        print(f'({self.no_proc}) time elapsed: {time()-start}')
+        self.time_elapsed = time() - start
+        print(f'({self.no_proc}) time elapsed: {self.time_elapsed}')
 
     def read_from_file(self):
         idx = 0
@@ -91,4 +92,4 @@ if __name__ == '__main__':
     # try for different number of processes
     for proc in range(PROCESSES):
         enc_worker = EncryptionWorker(proc+1, IN_FILE, OUT_FILE, PASSWORD)
-        # enc_worker2 = EncryptionWorker(proc+1, 'out.txt', 'in2.txt', 'asdjhkasjkdhaskjd')
+        log_data(f'P;{os.path.getsize(IN_FILE)};{CHUNK_SIZE};{NO_LOOPS};{proc};{enc_worker.time_elapsed}')

@@ -1,8 +1,7 @@
 import socket
 from multiprocessing import Process
-from config import CHUNK_SIZE, METADATA_SIZE, NO_LOOPS, PORT
+from config import CHUNK_SIZE, METADATA_SIZE, NO_LOOPS, PORT, PROCESSES
 
-PROCESSES = 8
 HOST = '127.0.0.1'  # The server's hostname or IP address
 
 

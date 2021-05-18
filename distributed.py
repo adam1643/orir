@@ -4,7 +4,7 @@ from hashlib import md5
 import socket
 from threading import Thread
 import os
-from config import CHUNK_SIZE, METADATA_SIZE, NO_LOOPS, PORT, MAX_CLIENTS, IN_FILE, OUT_FILE, PASSWORD
+from config import CHUNK_SIZE, METADATA_SIZE, NO_LOOPS, PORT, MAX_CLIENTS, IN_FILE, OUT_FILE, PASSWORD, PROCESSES, log_data
 
 HOST = '127.0.0.1'      # socket host to bind
 
@@ -141,4 +141,7 @@ if __name__ == '__main__':
     # finish writing to file
     enc_worker.output_queue.put('STOP')
     enc_worker.writer_proc.join()
-    print(f'\nEncryption/decryption finished in {time() - start_time}')
+
+    time_elapsed = time() - start_time
+    print(f'\nEncryption/decryption finished in {time_elapsed}')
+    log_data(f'D;{os.path.getsize(IN_FILE)};{CHUNK_SIZE};{NO_LOOPS};{PROCESSES};{time_elapsed}')

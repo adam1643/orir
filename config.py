@@ -1,10 +1,19 @@
-IN_FILE = 'test.txt'
-OUT_FILE = 'out2.txt'
+IN_FILE = 'in.txt'
+OUT_FILE = 'out.txt'
 PASSWORD = '1234567'
 
+LOG_FILE = 'log.txt'
+
+PROCESSES = 8
 CHUNK_SIZE = 5000       # how many bytes in single data chunk
 METADATA_SIZE = 50      # how many bytes in metadata
 NO_LOOPS = 50           # how many encryption loops
 
 PORT = 9999             # socket port to bind
 MAX_CLIENTS = 10        # max allowed clients
+
+
+def log_data(data):
+    with open(LOG_FILE, 'a') as f:
+        f.write(data)
+        f.write('\n')
