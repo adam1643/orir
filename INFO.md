@@ -48,3 +48,25 @@ W ramach instancji `client.py` działa `n` procesów każdy wykonujący własne 
 `file_generator.py` - skrypt umożliwiający tworzenie plików o określonej wielkości umieszczając w nich losowe znaki
 
 Przykładowo komenda `python3 file_generator.py test.txt 2` utworzy plik `test.txt` o wielkości 2 MB zawierający zestaw losowych znaków [a-zA-Z0-9].
+
+# Mierzenie wydajności
+
+Dla wersji równoległej czas działania algorytmu liczony jest od momentu startu procesu wczytującego dane z pliku wejściowego do momentu zakończenia zapisywania do pliku wynikowego.
+
+Dla wersji rozproszonej czas działania liczony jest od momentu podłączenia się pierwszego klienta do momentu zakończenia zapisywania do pliku wynikowego.
+
+# Scenariusze testowe
+
+Każdy scenariusz powinien zostać wykonany w obu wersjach (równoległej i rozproszonej) dla każdej liczby procesów od 1 do 8.
+
+ Lp. | Wielkość pliku (MB) | Liczba pętli (K) | Wielkość części |
+-----|---------------------|------------------|-----------------|
+ 1.  | 1                   | 50               | 5000            |
+ 2.  | 1                   | 50               | 1000            |
+ 3.  | 1                   | 50               | 200             |
+ 4.  | 0.1                 | 50               | 5000            |
+ 5.  | 0.2                 | 50               | 1000            |
+ 6.  | 0.5                 | 50               | 5000            |
+ 7.  | 1                   | 50               | 5000            |
+ 8.  | 2                   | 50               | 5000            |
+ 9.  | 4                   | 50               | 5000            |
