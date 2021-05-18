@@ -31,9 +31,12 @@ def handle_conn(proc_index):
             data = s.recv(CHUNK_SIZE + METADATA_SIZE)
 
             # no more data to process
-            if data is None or 'STOP' in data.decode():
-                s.sendall(b'STOP')
-                break
+            try:
+                if data is None or 'STOP' in data.decode():
+                    s.sendall(b'STOP')
+                    break
+            except UnicodeDecodeError:
+                pass
 
             # extract index, password and data to process
             index = data[:10]
