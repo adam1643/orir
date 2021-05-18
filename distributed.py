@@ -154,4 +154,4 @@ if __name__ == '__main__':
 
     time_elapsed = time() - start_time
     print(f'\nEncryption/decryption finished in {time_elapsed}')
-    log_data(f'D;{os.path.getsize(IN_FILE)};{CHUNK_SIZE};{NO_LOOPS};{PROCESSES};{time_elapsed}')
+    log_data(f'D;{os.path.getsize(IN_FILE)};{CHUNK_SIZE};{NO_LOOPS};{PROCESSES};{time_elapsed};')

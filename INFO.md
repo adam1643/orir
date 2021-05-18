@@ -68,7 +68,7 @@ Każdy scenariusz powinien zostać wykonany w obu wersjach (równoległej i rozp
 Informacje zapisywane są w pliku `log.txt` w formacie:
 
 ```
-TYPE;FILE_SIZE;CHUNK_SIZE;LOOPS;PROCESSES;TIME
+TYPE;FILE_SIZE;CHUNK_SIZE;LOOPS;PROCESSES;TIME;
 ```
 
  Lp. | Wielkość pliku (MB) | Liczba pętli (`K`) | Wielkość części `n` |
@@ -79,6 +79,8 @@ TYPE;FILE_SIZE;CHUNK_SIZE;LOOPS;PROCESSES;TIME
  4.  | 0.1                 | 50               | 5000                  |
  5.  | 0.2                 | 50               | 5000                  |
  6.  | 0.5                 | 50               | 5000                  |
- 7.  | 1                   | 50               | 5000                  |
- 8.  | 2                   | 50               | 5000                  |
- 9.  | 4                   | 50               | 5000                  |
+ 7.  | 2                   | 50               | 5000                  |
+ 8.  | 4                   | 50               | 5000                  |
+ 9.  | 0.01                | 50               | 500                   |
+ 10. | 0.02                | 50               | 500                   |
+ 11. | 0.05                | 50               | 500                   |
