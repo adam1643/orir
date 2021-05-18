@@ -97,6 +97,6 @@ if __name__ == '__main__':
 
     print(f'SCENARIO: file size: {os.path.getsize(IN_FILE)}, chunk size: {CHUNK_SIZE}, loops: {NO_LOOPS}')
     # try for different number of processes
-    # for proc in range(PROCESSES):
-    enc_worker = EncryptionWorker(7+1, IN_FILE, OUT_FILE, PASSWORD)
-    log_data(f'P;{os.path.getsize(IN_FILE)};{CHUNK_SIZE};{NO_LOOPS};{7+1};{enc_worker.time_elapsed};')
+    for proc in range(PROCESSES):
+        enc_worker = EncryptionWorker(proc+1, IN_FILE, OUT_FILE, PASSWORD)
+        log_data(f'P;{os.path.getsize(IN_FILE)};{CHUNK_SIZE};{NO_LOOPS};{proc+1};{enc_worker.time_elapsed}')

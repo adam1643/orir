@@ -1,5 +1,5 @@
-IN_FILE = 'out.txt'
-OUT_FILE = 'orig.txt'
+IN_FILE = 'in.txt'
+OUT_FILE = 'out.txt'
 PASSWORD = '1234567'
 
 LOG_FILE = 'log.txt'
