@@ -122,7 +122,9 @@ if __name__ == '__main__':
     print(f'SCENARIO: file size: {os.path.getsize(IN_FILE)}, chunk size: {CHUNK_SIZE}, loops: {NO_LOOPS}')
     enc_worker = EncryptionWorker(IN_FILE, OUT_FILE, PASSWORD)
 
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    # s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s = socket.socket()
+    s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     s.bind((HOST, PORT))
     print(f'Socket bound to {HOST}:{PORT}')
 
