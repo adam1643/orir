@@ -92,8 +92,8 @@ if __name__ == '__main__':
     # check script arguments
     if len(sys.argv) > 1:
         IN_FILE = sys.argv[1]
-        CHUNK_SIZE = sys.argv[2]
-        NO_LOOPS = sys.argv[3]
+        CHUNK_SIZE = int(sys.argv[2])
+        NO_LOOPS = int(sys.argv[3])
 
     print(f'SCENARIO: file size: {os.path.getsize(IN_FILE)}, chunk size: {CHUNK_SIZE}, loops: {NO_LOOPS}')
     # try for different number of processes

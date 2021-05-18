@@ -18,6 +18,8 @@ Konieczne jest również wprowadzenie mechanizmów synchronizacyjnych, aby umoż
 
 `parallel.py` - plik z wersją zrównolegloną algorytmu
 
+Przykład:```parallel.py IN_FILE CHUNK_SIZE NO_LOOPS```
+
 W wersji równoległej algorytmu skorzystano z mechanizmu kolejkowania, aby rozdzielać zadania pomiędzy procesy.
 Wykorzystano dwie kolejki:
 - `input_queue` do przechowywania kolejnych części `part` wydzielonych z pliku `in`,
@@ -32,6 +34,10 @@ W programie działają równolegle następujące procesy:
 
 `distributed.py` - plik z wersją rozproszoną algorytmu; część serwerowa,
 `client.py` - klient wykonujący obliczenia rozproszone
+
+Przykład:```distributed.py IN_FILE CHUNK_SIZE NO_LOOPS PROCESSES```
+Przykład:```client.py CHUNK_SIZE NO_LOOPS PROCESSES```
+
 
 W wersji rozproszonej algorytmu wykorzystano dodatkowo mechanizm gniazd (socketów) do komunikacji pomiędzy procesami mogącymi działać na różnych komputerach w sieci.
 

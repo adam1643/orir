@@ -60,9 +60,9 @@ def client_conn(proc_index):
 if __name__ == '__main__':
     # check script arguments
     if len(sys.argv) > 1:
-        CHUNK_SIZE = sys.argv[1]
-        NO_LOOPS = sys.argv[2]
-        PROCESSES = sys.argv[3]
+        CHUNK_SIZE = int(sys.argv[1])
+        NO_LOOPS = int(sys.argv[2])
+        PROCESSES = int(sys.argv[3])
 
     processes = []
     for idx in range(PROCESSES):
