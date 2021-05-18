@@ -2,6 +2,7 @@ from multiprocessing import Queue, Process, cpu_count
 from time import time
 from hashlib import md5
 import os
+import sys
 from config import CHUNK_SIZE, NO_LOOPS, IN_FILE, OUT_FILE, PASSWORD, log_data
 
 PROCESSES = cpu_count()
@@ -88,6 +89,12 @@ class EncryptionWorker:
 
 
 if __name__ == '__main__':
+    # check script arguments
+    if len(sys.argv) > 1:
+        IN_FILE = sys.argv[1]
+        CHUNK_SIZE = sys.argv[2]
+        NO_LOOPS = sys.argv[3]
+
     print(f'SCENARIO: file size: {os.path.getsize(IN_FILE)}, chunk size: {CHUNK_SIZE}, loops: {NO_LOOPS}')
     # try for different number of processes
     for proc in range(PROCESSES):

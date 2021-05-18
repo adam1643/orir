@@ -1,4 +1,5 @@
 import socket
+import sys
 from multiprocessing import Process
 from config import CHUNK_SIZE, METADATA_SIZE, NO_LOOPS, PORT, PROCESSES
 
@@ -57,6 +58,12 @@ def client_conn(proc_index):
 
 
 if __name__ == '__main__':
+    # check script arguments
+    if len(sys.argv) > 1:
+        CHUNK_SIZE = sys.argv[1]
+        NO_LOOPS = sys.argv[2]
+        PROCESSES = sys.argv[3]
+
     processes = []
     for idx in range(PROCESSES):
         proc = Process(target=client_conn, args=(idx,))

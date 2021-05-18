@@ -4,6 +4,7 @@ from hashlib import md5
 import socket
 from threading import Thread
 import os
+import sys
 from config import CHUNK_SIZE, METADATA_SIZE, NO_LOOPS, PORT, MAX_CLIENTS, IN_FILE, OUT_FILE, PASSWORD, PROCESSES, log_data
 
 HOST = '127.0.0.1'      # socket host to bind
@@ -111,6 +112,13 @@ class EncryptionWorker:
 
 
 if __name__ == '__main__':
+    # check script arguments
+    if len(sys.argv) > 1:
+        IN_FILE = sys.argv[1]
+        CHUNK_SIZE = sys.argv[2]
+        NO_LOOPS = sys.argv[3]
+        PROCESSES = sys.argv[4]
+
     print(f'SCENARIO: file size: {os.path.getsize(IN_FILE)}, chunk size: {CHUNK_SIZE}, loops: {NO_LOOPS}')
     enc_worker = EncryptionWorker(IN_FILE, OUT_FILE, PASSWORD)
 
