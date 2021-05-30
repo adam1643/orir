@@ -16,6 +16,7 @@ class EncryptionWorker:
         self.output_file = output_file
 
         self.working_thread = []
+        self.worker_done = []
 
         self.password = password
         self.password_digest = md5(self.password.encode()).hexdigest()
@@ -65,28 +66,39 @@ class EncryptionWorker:
 
     def add_new_connection(self, conn):
         print(f'Connection from {conn.getpeername()} accepted')
-        th = Thread(target=self.handle_connection, args=(conn,))
+        th = Thread(target=self.handle_connection, args=(conn, len(self.working_thread)))
+        self.worker_done.append(False)
         self.working_thread.append(th)
         th.start()
 
-    def handle_connection(self, conn):
-        while self.done is False:
+    def check_workers(self):
+        for done in self.worker_done:
+            if done is False:
+                return
+        self.done = True
+
+    def handle_connection(self, conn, thread_index):
+        while self.worker_done[thread_index] is False:
             # wait for ready flag from client
             data = conn.recv(METADATA_SIZE)
 
-            # all data computed, end connection
-            if 'STOP' in data.decode():
-                self.done = True
-                break
+            # skip empty data
+            if len(data) == 0:
+                print('Data empty')
+                conn.sendall(b'WAIT')
+                continue
 
             # abnormal flow
             if 'READY' not in data.decode():
+                print('Data', data)
                 raise ValueError('Wrong data flow!')
 
             # queue is empty, no more data to process, inform client
             if self.input_queue.empty() is True:
+                self.worker_done[thread_index] = True
+                self.check_workers()
                 conn.send(b'STOP')
-                continue
+                break
 
             index, data = self.input_queue.get()
 
@@ -95,17 +107,18 @@ class EncryptionWorker:
 
             # receive results and store them in output queue
             data = conn.recv(CHUNK_SIZE + METADATA_SIZE)
-            data_index = int(data[:10].decode())
-            data = data[10:]
-            self.output_queue.put((data_index, data))
+            if len(data) > 10:
+                data_index = int(data[:10].decode())
+                data = data[10:]
+                self.output_queue.put((data_index, data))
 
             # confirm receiving results
             conn.sendall(b'ACK')
 
-        print(f'Connection with {conn.getpeername()} closed.')
         try:
+            print(f'Connection with {conn.getpeername()} closed.')
             conn.sendall(b'STOP')
-            conn.recv(METADATA_SIZE)
+            # conn.recv(METADATA_SIZE)
             conn.close()
         except ConnectionResetError:
             print('Connection reseted by client!')
@@ -131,6 +144,7 @@ if __name__ == '__main__':
     s.listen(MAX_CLIENTS)
     print("Listening started...")
 
+    s.settimeout(0.2)
     start_time = None
     while enc_worker.done is False:
         try:
@@ -138,15 +152,15 @@ if __name__ == '__main__':
 
             # start timing only after first connection was established
             start_time = start_time or time()
+
+            enc_worker.add_new_connection(conn)
+        except socket.timeout:
+            pass
         except KeyboardInterrupt:
             if 'conn' in locals():
                 conn.close()
             print('Operation interrupted...')
             break
-
-        enc_worker.add_new_connection(conn)
-
-    s.close()
 
     # finish writing to file
     enc_worker.output_queue.put('STOP')

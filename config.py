@@ -1,11 +1,11 @@
-IN_FILE = 'in.txt'
+IN_FILE = 'hp.txt'
 OUT_FILE = 'out.txt'
 PASSWORD = '1234567'
 
 LOG_FILE = 'log.txt'
 
 PROCESSES = 8
-CHUNK_SIZE = 5000       # how many bytes in single data chunk
+CHUNK_SIZE = 500        # how many bytes in single data chunk
 METADATA_SIZE = 50      # how many bytes in metadata
 NO_LOOPS = 50           # how many encryption loops
 

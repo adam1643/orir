@@ -30,13 +30,9 @@ def handle_conn(proc_index):
             # wait for data to process
             data = s.recv(CHUNK_SIZE + METADATA_SIZE)
 
-            # no more data to process
-            try:
-                if data is None or 'STOP' in data.decode():
-                    s.sendall(b'STOP')
-                    break
-            except UnicodeDecodeError:
-                pass
+            # check if enough data was received
+            if len(data) < 10:
+                break
 
             # extract index, password and data to process
             index = data[:10]
@@ -58,6 +54,8 @@ def client_conn(proc_index):
         print('Connection closed!')
     except BrokenPipeError:
         print('Broken pipe, connection was closed earlier!')
+    except ConnectionResetError:
+        print('Connection resetted!')
 
 
 if __name__ == '__main__':
@@ -75,13 +73,3 @@ if __name__ == '__main__':
 
     for proc in processes:
         proc.join()
-
-    # end connection
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-        try:
-            sock.connect((HOST, PORT))
-            sock.sendall(b'STOP')
-            sock.close()
-        except ConnectionRefusedError:
-            print('Connection was already closed!')
-    print('All computations done!')
